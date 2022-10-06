@@ -23,10 +23,11 @@ public class UserType {
     private String name;
 
     @Column(name = "status")
+    @ColumnDefault(value = "1")
     private Integer status;
 
     @Column(name = "inserdate")
-    @ColumnDefault(value = "SYSDATE")
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Date inserDate;
 
 

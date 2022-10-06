@@ -1,7 +1,6 @@
 package az.company.bookstore.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -9,36 +8,32 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Builder
-@Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@Table(name ="book")
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "surname")
-    private String surname;
+    private String description;
 
-    @Column(name = "email")
-    private String email;
+    @ManyToOne
+    @JoinColumn(name = "author_id",nullable = false)
+    private User author;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_type_id")
-    private UserType userType;
+    @ManyToOne
+    @JoinColumn(name = "publisher_id",nullable = false)
+    private User publisher;
 
     @Column(name = "status")
     @ColumnDefault(value = "1")
     private Integer status;
 
-    @Column(name = "insertdate")
+    @Column(name = "insert_date")
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
-    private Date inserDate;
-
-
+    private Date insertDate;
 }
