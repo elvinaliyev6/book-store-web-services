@@ -28,6 +28,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "username")
+    private String username;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_type_id")
     private UserType userType;
