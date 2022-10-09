@@ -13,12 +13,7 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book,Long> {
 
     List<Book> findAllByStatus(Integer status);
-
-    List<Book> findByStatus(Integer status);
-
     Book findByIdAndStatus(Long id,Integer status);
-
     Page<Book> findByNameAndStatus(Pageable pageable, String name, Integer status);
-
     List<Book> findByPublisherAndStatus(User publisher, Integer status);
 }

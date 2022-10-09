@@ -1,17 +1,16 @@
 package az.company.bookstore.response;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Builder
-public class ResponseUser {
+public class ErrorResponse {
 
-    private String name;
-    private String surname;
+    Integer code;
+    String message;
 
 }

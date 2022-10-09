@@ -3,7 +3,6 @@ package az.company.bookstore.service;
 import az.company.bookstore.request.RequestBook;
 import az.company.bookstore.response.Response;
 import az.company.bookstore.response.ResponseBook;
-import az.company.bookstore.response.ResponseStatusList;
 
 import java.util.List;
 
@@ -17,8 +16,8 @@ public interface BookService {
 
     Response<List<ResponseBook>> getBooksByPublisherNameAndSurname(String name,String surname);
 
-    ResponseStatusList addBook(RequestBook requestBook);
+    void addBook(RequestBook requestBook);
 
-    ResponseStatusList updateBook(RequestBook requestBook);
+    void updateBook(RequestBook requestBook,Long id);
 
 }
