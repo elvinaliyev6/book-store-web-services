@@ -1,15 +1,12 @@
 package az.company.bookstore.enums;
 
-import az.company.bookstore.exception.ExceptionConstants;
-
 public enum ErrorCodeEnum {
 
-    BOOK_NOT_FOUND(ExceptionConstants.NOT_FOUND, "Can not find book given id"),
-    AUTHOR_NOT_FOUND(ExceptionConstants.NOT_FOUND,"Can not find author given id"),
-    PUBLISHER_NOT_FOUND(ExceptionConstants.NOT_FOUND,"Can not find publisher given id"),
-    VALIDATION_ERROR(ExceptionConstants.VALIDATION_ERROR, " is not valid"),
-    ACCESS_DENIED(ExceptionConstants.ACCESS_DENIED, "Access is denied"),
-    UNKNOWN_ERROR(ExceptionConstants.UNKNOWN_ERROR, "Unknown error");
+    NOT_FOUND(1001, "Can not find "),
+    VALIDATION_ERROR(1002, " is not valid"),
+    ACCESS_DENIED(1003, "Access is denied"),
+    INVALID_REQUEST_DATA(1005,"Invalid request data"),
+    UNKNOWN_ERROR(1005, "Unknown error");
 
 
     private final String message;

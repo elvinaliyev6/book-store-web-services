@@ -2,9 +2,7 @@ package az.company.bookstore.service.impl;
 
 import az.company.bookstore.enums.EnumStatus;
 import az.company.bookstore.enums.ErrorCodeEnum;
-import az.company.bookstore.exception.AuthorNotFoundException;
-import az.company.bookstore.exception.BookNotFoundException;
-import az.company.bookstore.exception.PublisherNotFoundException;
+import az.company.bookstore.exception.CustomNotFoundException;
 import az.company.bookstore.model.Book;
 import az.company.bookstore.model.User;
 import az.company.bookstore.model.UserType;
@@ -18,8 +16,8 @@ import az.company.bookstore.response.ResponseUser;
 import az.company.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +36,7 @@ public class BookServiceImpl implements BookService {
         List<ResponseBook> responseBookList = bookRepository.findAllByStatus(EnumStatus.ACTIVE.getValue()).stream().map(book -> convertToRespBook(book)).collect(Collectors.toList());
 
         if (responseBookList.isEmpty()) {
-            throw new BookNotFoundException(ErrorCodeEnum.BOOK_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"book");
         }
 
         responseBook.setResponse(responseBookList);
@@ -52,7 +50,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findByIdAndStatus(id, EnumStatus.ACTIVE.getValue());
 
         if (book == null) {
-            throw new BookNotFoundException(ErrorCodeEnum.BOOK_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"book");
         }
         ResponseBook responseBook = convertToRespBook(book);
         response.setResponse(responseBook);
@@ -72,12 +70,12 @@ public class BookServiceImpl implements BookService {
         User publisher = userRepository.findByNameAndSurnameAndStatus(name, surname, EnumStatus.ACTIVE.getValue());
 
         if (publisher == null)
-            throw new PublisherNotFoundException(ErrorCodeEnum.PUBLISHER_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"publisher");
 
         List<Book> bookList = bookRepository.findByPublisherAndStatus(publisher, EnumStatus.ACTIVE.getValue());
 
         if (bookList == null) {
-            throw new BookNotFoundException(ErrorCodeEnum.BOOK_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"book");
         }
 
         List<ResponseBook> responseBookList = bookList.stream()
@@ -96,14 +94,21 @@ public class BookServiceImpl implements BookService {
         User author = userRepository.findByIdAndUserTypeAndStatus(requestBook.getAuthorId(), userTypes.get(0), EnumStatus.ACTIVE.getValue());
         User publisher = userRepository.findByIdAndUserTypeAndStatus(requestBook.getPublisherId(), userTypes.get(1), EnumStatus.ACTIVE.getValue());
 
-        if (author == null || publisher == null)
-            throw new BookNotFoundException(ErrorCodeEnum.BOOK_NOT_FOUND);
+        if (author == null)
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"author");
+
+        if(publisher==null)
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"publisher");
+
+        Date insertDate=new Date();
 
         Book book = new Book();
         book.setName(requestBook.getName());
         book.setDescription(requestBook.getDescription());
         book.setAuthor(author);
         book.setPublisher(publisher);
+        book.setInsertDate(insertDate);
+        book.setStatus(EnumStatus.ACTIVE.getValue());
         bookRepository.save(book);
 
     }
@@ -118,13 +123,13 @@ public class BookServiceImpl implements BookService {
         User publisher = userRepository.findByIdAndUserTypeAndStatus(requestBook.getPublisherId(), userTypes.get(1), EnumStatus.ACTIVE.getValue());
 
         if (book == null)
-            throw new BookNotFoundException(ErrorCodeEnum.BOOK_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"book");
 
         if (author == null)
-            throw new AuthorNotFoundException(ErrorCodeEnum.AUTHOR_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"author");
 
         if (publisher == null)
-            throw new PublisherNotFoundException(ErrorCodeEnum.PUBLISHER_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"publisher");
 
         book.setName(requestBook.getName());
         book.setDescription(requestBook.getDescription());

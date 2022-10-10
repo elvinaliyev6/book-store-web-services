@@ -11,4 +11,6 @@ public interface UserTypeRepository extends JpaRepository<UserType,Long> {
 
     List<UserType> findAllByStatus(Integer status);
 
+    UserType findByIdAndStatus(Long id,Integer status);
+
 }
