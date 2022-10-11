@@ -26,6 +26,12 @@ public class BookController {
         return bookService.getBookById(id);
     }
 
+    @GetMapping("/name/{name}/{pageNumber}/{limit}")
+    public Response<List<ResponseBook>> getBookByName(@PathVariable("name") String name,@PathVariable("pageNumber") Integer pageNumber,@PathVariable("limit") Integer limit) {
+        return bookService.getBooksByName(name,pageNumber,limit);
+    }
+
+
     @PostMapping(value = "/addBook")
     public void addBook(@RequestBody RequestBook requestBook) {
         bookService.addBook(requestBook);
@@ -40,4 +46,6 @@ public class BookController {
     public Response<List<ResponseBook>> getBooksByPublisherNameAndSurname(@RequestParam String name, @RequestParam String surname) {
         return bookService.getBooksByPublisherNameAndSurname(name, surname);
     }
+
+
 }

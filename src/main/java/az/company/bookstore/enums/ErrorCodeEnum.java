@@ -5,8 +5,8 @@ public enum ErrorCodeEnum {
     NOT_FOUND(1001, "Can not find "),
     VALIDATION_ERROR(1002, " is not valid"),
     ACCESS_DENIED(1003, "Access is denied"),
-    INVALID_REQUEST_DATA(1005,"Invalid request data"),
-    UNKNOWN_ERROR(1005, "Unknown error");
+    INVALID_REQUEST(1004,"Invalid request"),
+    UNKNOWN_ERROR(1000, "Unknown error");
 
 
     private final String message;

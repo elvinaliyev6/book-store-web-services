@@ -12,7 +12,7 @@ public interface BookService {
 
     Response<ResponseBook> getBookById(Long id);
 
-    Response<List<ResponseBook>> getBooksByName(String name,Integer pageNumber,Integer limit);
+    Response<List<ResponseBook>>getBooksByName(String name,Integer pageNumber,Integer limit);
 
     Response<List<ResponseBook>> getBooksByPublisherNameAndSurname(String name,String surname);
 

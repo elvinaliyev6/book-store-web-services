@@ -15,8 +15,12 @@ import az.company.bookstore.response.ResponseBook;
 import az.company.bookstore.response.ResponseUser;
 import az.company.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +40,7 @@ public class BookServiceImpl implements BookService {
         List<ResponseBook> responseBookList = bookRepository.findAllByStatus(EnumStatus.ACTIVE.getValue()).stream().map(book -> convertToRespBook(book)).collect(Collectors.toList());
 
         if (responseBookList.isEmpty()) {
-            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"book");
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage() + "book");
         }
 
         responseBook.setResponse(responseBookList);
@@ -50,7 +54,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findByIdAndStatus(id, EnumStatus.ACTIVE.getValue());
 
         if (book == null) {
-            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"book");
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage() + "book");
         }
         ResponseBook responseBook = convertToRespBook(book);
         response.setResponse(responseBook);
@@ -60,8 +64,25 @@ public class BookServiceImpl implements BookService {
     @Override
     public Response<List<ResponseBook>> getBooksByName(String name, Integer pageNumber, Integer limit) {
 
+        Response<List<ResponseBook>> response = new Response<>();
 
-        return null;
+        Pageable pageable = PageRequest.of(pageNumber, limit);
+
+        Page<Book> books = bookRepository.findByNameAndStatus(pageable, name, EnumStatus.ACTIVE.getValue());
+
+        System.out.println(books);
+        if(books==null)
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"book");
+
+        List<ResponseBook> responseBookList = new ArrayList<>();
+
+        for (Book book : books) {
+            ResponseBook responseBook = convertToRespBook(book);
+            responseBookList.add(responseBook);
+        }
+        response.setResponse(responseBookList);
+
+        return response;
     }
 
     @Override
@@ -69,13 +90,13 @@ public class BookServiceImpl implements BookService {
 
         User publisher = userRepository.findByNameAndSurnameAndStatus(name, surname, EnumStatus.ACTIVE.getValue());
 
-        if (publisher == null)
-            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"publisher");
+        if (publisher == null || publisher.getUserType().getId()!=2)
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage() + "publisher");
 
         List<Book> bookList = bookRepository.findByPublisherAndStatus(publisher, EnumStatus.ACTIVE.getValue());
 
         if (bookList == null) {
-            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"book");
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage() + "book");
         }
 
         List<ResponseBook> responseBookList = bookList.stream()
@@ -91,16 +112,18 @@ public class BookServiceImpl implements BookService {
     @Override
     public void addBook(RequestBook requestBook) {
         List<UserType> userTypes = userTypeRepository.findAllByStatus(EnumStatus.ACTIVE.getValue());
-        User author = userRepository.findByIdAndUserTypeAndStatus(requestBook.getAuthorId(), userTypes.get(0), EnumStatus.ACTIVE.getValue());
-        User publisher = userRepository.findByIdAndUserTypeAndStatus(requestBook.getPublisherId(), userTypes.get(1), EnumStatus.ACTIVE.getValue());
+        Long authorId = requestBook.getAuthorId();
+        Long publisherId = requestBook.getPublisherId();
+        User author = userRepository.findByIdAndUserTypeAndStatus(authorId, userTypes.get(0), EnumStatus.ACTIVE.getValue());
+        User publisher = userRepository.findByIdAndUserTypeAndStatus(publisherId, userTypes.get(1), EnumStatus.ACTIVE.getValue());
 
         if (author == null)
-            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"author");
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage() + "author");
 
-        if(publisher==null)
-            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"publisher");
+        if (publisher == null)
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage() + "publisher");
 
-        Date insertDate=new Date();
+        Date insertDate = new Date();
 
         Book book = new Book();
         book.setName(requestBook.getName());
@@ -123,13 +146,13 @@ public class BookServiceImpl implements BookService {
         User publisher = userRepository.findByIdAndUserTypeAndStatus(requestBook.getPublisherId(), userTypes.get(1), EnumStatus.ACTIVE.getValue());
 
         if (book == null)
-            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"book");
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage() + "book");
 
         if (author == null)
-            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"author");
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage() + "author");
 
         if (publisher == null)
-            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage()+"publisher");
+            throw new CustomNotFoundException(ErrorCodeEnum.NOT_FOUND.getMessage() + "publisher");
 
         book.setName(requestBook.getName());
         book.setDescription(requestBook.getDescription());
@@ -141,6 +164,26 @@ public class BookServiceImpl implements BookService {
     }
 
     private ResponseBook convertToRespBook(Book book) {
-        return ResponseBook.builder().id(book.getId()).name(book.getName()).description(book.getDescription()).author(ResponseUser.builder().name(book.getAuthor().getName()).surname(book.getAuthor().getSurname()).build()).publisher(ResponseUser.builder().name(book.getPublisher().getName()).surname(book.getPublisher().getSurname()).build()).build();
+        return ResponseBook.builder()
+                .id(book.getId())
+                .name(book.getName())
+                .description(book.getDescription())
+                .author(ResponseUser.builder()
+                        .name(book.getAuthor()
+                                .getName())
+                        .surname(book
+                                .getAuthor()
+                                .getSurname())
+                        .build())
+                .publisher(ResponseUser
+                        .builder()
+                        .name(book
+                                .getPublisher()
+                                .getName())
+                        .surname(book
+                                .getPublisher()
+                                .getSurname())
+                        .build())
+                .build();
     }
 }
