@@ -24,12 +24,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest()
                 .authenticated()
-                .and().httpBasic();
+                .and().httpBasic()
+                .and()
+                .csrf().disable();
 
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
 }

@@ -4,14 +4,17 @@ import az.company.bookstore.request.RequestBook;
 import az.company.bookstore.response.Response;
 import az.company.bookstore.response.ResponseBook;
 import az.company.bookstore.service.BookService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/books")
 @AllArgsConstructor
+@Tag(name = "Book services",description = "book services")
 public class BookController {
 
     private final BookService bookService;
@@ -38,7 +41,7 @@ public class BookController {
     }
 
     @PutMapping(value = "/book/{id}")
-    public void updateBook(@RequestBody RequestBook requestBook, @PathVariable("id") Long id) {
+    public void updateBook(@RequestBody @Valid RequestBook requestBook, @PathVariable("id") Long id) {
         bookService.updateBook(requestBook, id);
     }
 

@@ -13,3 +13,5 @@ spring:
         dialect: org.hibernate.dialect.MySQL5Dialect
 server:
   port: 8000
+  servlet:
+      context-path: /bookstore

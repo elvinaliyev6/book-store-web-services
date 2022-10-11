@@ -5,10 +5,14 @@ import az.company.bookstore.enums.ErrorCodeEnum;
 import az.company.bookstore.exception.CustomNotFoundException;
 import az.company.bookstore.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ExceptionHandlerController {
@@ -50,6 +54,18 @@ public class ExceptionHandlerController {
                 .builder()
                 .code(ErrorCodeEnum.UNKNOWN_ERROR.getCode())
                 .message(ErrorCodeEnum.UNKNOWN_ERROR.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidation(MethodArgumentNotValidException e){
+        List<String> fieldErrorNamesList=e.getBindingResult().getFieldErrors().stream().map(fieldError ->fieldError.getField())
+                .collect(Collectors.toList());
+        return ErrorResponse
+                .builder()
+                .code(ErrorCodeEnum.VALIDATION_ERROR.getCode())
+                .message(fieldErrorNamesList+ErrorCodeEnum.VALIDATION_ERROR.getMessage())
                 .build();
     }
 

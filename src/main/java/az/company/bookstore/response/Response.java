@@ -7,6 +7,4 @@ public class Response<T> {
 
     private T response;
 
-
-
 }
