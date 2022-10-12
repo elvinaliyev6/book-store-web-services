@@ -26,7 +26,7 @@
  
  <h1>Endpoint</h1>
  <ul>
-  <li>Main url- <a>http://localhost:8000/bookstore</a></li>
+  <li>Main url-<code>http://localhost:8000/bookstore</code></li>
   <li>POST <a>http://localhost:8000/bookstore/user/login</a> for login users</li>
   <li>POST <a>http://localhost:8000/bookstore/user/signUp</a> for registration</li>
   <li>GET <a>http://localhost:8000/bookstore/books/bookList</a> for get all books</li>
