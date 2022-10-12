@@ -5,14 +5,13 @@
   <li>Spring Security</li>
   <li>Lombok</li>
   <li>MySql</li>
-</ul><br/><br/>
+</ul>
 
 <h1>Requirement for running</h1>
 <ul>
 <li>Postman - for testing project</1li>
 <li>Intellij Idea - for opening project and checking code</li>
 </ul>
-<br/><br/>
 
 <h1>How to run locally</h1>
 <ol>
@@ -23,11 +22,19 @@
   <li>Open it with your favorite editor</li>
   <li>Run it</li>
   <li>Test endpoints you are interested in</li>
-</ol><br/><br/>
+</ol>
  
  <h1>Endpoint</h1>
  <ul>
-  <li> </li>
+  <li>Main url- <a>http://localhost:8000/bookstore</a></li>
+  <li>POST <a>http://localhost:8000/bookstore/user/login</a> for login users</li>
+  <li>POST <a>http://localhost:8000/bookstore/user/signUp</a> for registration</li>
+  <li>GET <a>http://localhost:8000/bookstore/books/bookList</a> for get all books</li>
+  <li>GET <a>http://localhost:8000/bookstore/books/book/{id}</a> for get book by id</li>
+  <li>POST <a>http://localhost:8000/bookstore/books/addBook</a> for insert a book</li>
+  <li>PUT <a>http://localhost:8000/bookstore/books/book/{id}</a> for update a book givem id</li>
+  <li>GET <a>http://localhost:8000/bookstore/books/publisher</a> for get books by publisher</li>
+  <li>GET <a>http://localhost:8000/bookstore/books/name{name}r</a> for get books by name. Also pagination is used.</li>
  </ul>
 
 
