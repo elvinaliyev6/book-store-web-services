@@ -27,14 +27,14 @@
  <h1>Endpoint</h1>
  <ul>
   <li>Main url-<code>http://localhost:8000/bookstore</code></li>
-  <li>POST <a>http://localhost:8000/bookstore/user/login</a> for login users</li>
-  <li>POST <a>http://localhost:8000/bookstore/user/signUp</a> for registration</li>
-  <li>GET <a>http://localhost:8000/bookstore/books/bookList</a> for get all books</li>
-  <li>GET <a>http://localhost:8000/bookstore/books/book/{id}</a> for get book by id</li>
-  <li>POST <a>http://localhost:8000/bookstore/books/addBook</a> for insert a book</li>
-  <li>PUT <a>http://localhost:8000/bookstore/books/book/{id}</a> for update a book givem id</li>
-  <li>GET <a>http://localhost:8000/bookstore/books/publisher</a> for get books by publisher</li>
-  <li>GET <a>http://localhost:8000/bookstore/books/name{name}r</a> for get books by name. Also pagination is used.</li>
+  <li>POST <code>http://localhost:8000/bookstore/user/login</code> for login users</li>
+  <li>POST <code>http://localhost:8000/bookstore/user/signUp</code> for registration</li>
+  <li>GET <code>http://localhost:8000/bookstore/books/bookList</code> for get all books</li>
+  <li>GET <code>http://localhost:8000/bookstore/books/book/{id}</code> for get book by id</li>
+  <li>POST <code>http://localhost:8000/bookstore/books/addBook</code> for insert a book</li>
+  <li>PUT <code>http://localhost:8000/bookstore/books/book/{id}</code> for update a book givem id</li>
+  <li>GET <code>http://localhost:8000/bookstore/books/publisher</code> for get books by publisher</li>
+  <li>GET <code>http://localhost:8000/bookstore/books/name{name}</code> for get books by name. Also pagination is used.</li>
  </ul>
 
 
