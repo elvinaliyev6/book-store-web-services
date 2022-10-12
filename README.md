@@ -3,6 +3,7 @@
   <li>Spring Data JPA</li>
   <li>Spring Web</li>
   <li>Spring Security</li>
+  <li>Swagger</li>
   <li>Lombok</li>
   <li>MySql</li>
 </ul>
@@ -35,6 +36,7 @@
   <li>PUT <code>http://localhost:8000/bookstore/books/book/{id}</code> for update a book givem id</li>
   <li>GET <code>http://localhost:8000/bookstore/books/publisher</code> for get books by publisher</li>
   <li>GET <code>http://localhost:8000/bookstore/books/name{name}</code> for get books by name. Also pagination is used.</li>
+  <li>Swagger url: <code>http://localhost:8000/bookstore/swagger-ui/index.html</code></li>  
  </ul>
 
 
